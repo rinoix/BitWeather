@@ -13,7 +13,7 @@ def fetch_weather_data():
     try:
         weather_url = (
             f"http://api.openweathermap.org/data/2.5/weather?q={city}"
-            f"&appid={current_app.config["WEATHER_API_KEY"]}&units=metric&lang=ja"
+            f"&appid={current_app.config['WEATHER_API_KEY']}&units=metric&lang=ja"
         )
         weather_responce = requests.get(weather_url)
         weather_data = weather_responce.json()
