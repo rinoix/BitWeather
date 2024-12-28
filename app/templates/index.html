@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html jang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BitWeather</title>
+        <meta name="description" content="電脳空間に現実と同じ時間軸を。画面を放置するときに時間と天気を表示しておけるサイト。">
+        <link rel="shortcut icon" href="URL">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+        <meta name="format-detection" content="email=no,telephone=no,address=no">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="{{ url_for('static', filename='js/vue.js') }}" defer></script>
+    </head>
+    <body>
+        <div id="mainApp">
+            <picture>
+                <source :srcset="currentSrcSet['4k']" media="(min-width: 3840px)">
+                <img :src="currentBackground" alt="background" class="background-image">
+            </picture>
+            <div class="front-container">
+                <div class="weather-card">
+                    <img :src="changeIconUrl(weather)" alt="Weather Icon" class="weather-icon">
+                    <div class="weather-holder">
+                        <p class="weather-description">[[ weatherDescription ]]</p>
+                        <p class="temperature">[[ temp ]]℃</p>
+                    </div>
+                </div>
+                <p class="time">[[ time ]]</p>
+            </div>
+        <div>
+    </body>
+</html>
