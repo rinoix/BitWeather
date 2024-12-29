@@ -48,9 +48,10 @@ body {
     font-size: 5ex;
 }
 
+.weather-city,
 .weather-description,
 .temperature {
-    margin: 10px 0;
+    margin: 7px 0;
 }
 
 .time {

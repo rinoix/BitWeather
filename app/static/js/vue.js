@@ -23,7 +23,8 @@ createApp({
             currentTime: null,
             usingServerTime: false,
             weather: '',
-            weatherDescription: '',
+            weatherCity: null,
+            weatherDescription: null,
             temp: 0,
             time: null,
             weatherIconUrl: {
@@ -126,6 +127,7 @@ createApp({
             try {
                 const response = await axios.get('/api/weather')
                 this.weather = response.data.weather
+                this.weatherCity = response.data.weatherCity
                 this.weatherDescription = response.data.weatherDescription
                 this.temp = response.data.temp
             } catch (error) {

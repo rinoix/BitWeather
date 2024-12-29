@@ -18,6 +18,7 @@ def fetch_weather_data():
         weather_responce = requests.get(weather_url)
         weather_data = weather_responce.json()
         weather_main = weather_data["weather"][0]["main"]
+        weather_city = weather_data["name"]
         weather_description = weather_data["weather"][0]["description"]
         weather_temp = weather_data["main"]["temp"]
     except Exception as e:
@@ -27,6 +28,7 @@ def fetch_weather_data():
         
     return jsonify({
         "weather" : weather_main,
+        "weatherCity" : weather_city,
         "weatherDescription" : weather_description,
         "temp" : weather_temp
     })
