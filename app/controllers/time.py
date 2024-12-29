@@ -1,12 +1,12 @@
 import requests
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from datetime import datetime
 import pytz
 from app.controllers.utils import fetch_ip_data
 
 def fetch_time_data():
     try:
-        response = requests.get("https://worldtimeapi.org/api/ip", timeout=10)
+        response = requests.get(f"{current_app.config['TIME_API_URL']}", timeout=10)
         time_data = response.json()
         time_str = time_data["datetime"]
     except requests.exceptions.Timeout:
