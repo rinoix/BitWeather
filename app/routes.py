@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
+from .controllers.utils import fetch_ip_data
 from .controllers.time import fetch_time_data
 from .controllers.weather import fetch_weather_data
 

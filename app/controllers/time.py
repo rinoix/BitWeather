@@ -12,7 +12,7 @@ def fetch_time_data():
     except requests.exceptions.Timeout:
         raise Exception("The request timed out")
     except Exception as e:
-        ip_data = fetch_ip_data(request.remote_addr)
+        ip_data = fetch_ip_data()
         timezone = ip_data.get("timezone", "UTC")
         
         try:
