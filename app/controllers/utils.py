@@ -1,5 +1,5 @@
 import requests
-from flask import current_app, request
+from flask import current_app
 
 def fetch_ip_data(ip):
     try:
