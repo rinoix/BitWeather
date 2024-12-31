@@ -4,6 +4,7 @@ from app.controllers.utils import fetch_ip_data
 
 def fetch_weather_data():
     ip_data = fetch_ip_data()
+    print(ip_data)
     
     if ip_data.get("status") == "fail":
         city = "Tokyo"

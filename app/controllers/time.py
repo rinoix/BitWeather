@@ -7,6 +7,7 @@ from app.controllers.utils import fetch_ip_data
 def fetch_time_data():
     try:
         response = requests.get(f"{current_app.config['TIME_API_URL']}", timeout=10)
+        print(request.remote_addr)
         time_data = response.json()
         time_str = time_data["datetime"]
     except requests.exceptions.Timeout:
