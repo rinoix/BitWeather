@@ -1,12 +1,9 @@
 from flask import Flask
-from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 import os
 
 def create_app():
     app = Flask(__name__)
-    
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
     
     load_dotenv()
     

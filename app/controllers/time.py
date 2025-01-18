@@ -6,14 +6,17 @@ from app.controllers.utils import fetch_ip_data
 
 def fetch_time_data():
     try:
-        response = requests.get(f"{current_app.config['TIME_API_URL']}", timeout=10)
-        print(request.remote_addr)
+        raw_ip = request.headers.get('Cf-Connecting-Ip')
+        if not raw_ip:
+            raw_ip = request.remote_addr
+        
+        response = requests.get(f"{current_app.config['TIME_API_URL']}{raw_ip}", timeout=10)
         time_data = response.json()
         time_str = time_data["datetime"]
     except requests.exceptions.Timeout:
         raise Exception("The request timed out")
     except Exception as e:
-        ip_data = fetch_ip_data(request.remote_addr)
+        ip_data = fetch_ip_data(request.headers.get('Cf-Connecting-Ip'))
         timezone = ip_data.get("timezone", "UTC")
         
         try:

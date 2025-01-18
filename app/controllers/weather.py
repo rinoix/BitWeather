@@ -3,7 +3,7 @@ from flask import request, jsonify, current_app
 from app.controllers.utils import fetch_ip_data
 
 def fetch_weather_data():
-    ip_data = fetch_ip_data(request.remote_addr)
+    ip_data = fetch_ip_data(request.headers.get('Cf-Connecting-Ip'))
     
     if ip_data.get("status") == "fail":
         city = "Tokyo"
@@ -30,6 +30,5 @@ def fetch_weather_data():
         "weather" : weather_main,
         "weatherCity" : weather_city,
         "weatherDescription" : weather_description,
-        "temp" : weather_temp,
-        "ip_data" : ip_data
+        "temp" : weather_temp
     })
