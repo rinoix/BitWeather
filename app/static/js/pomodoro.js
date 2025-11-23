@@ -20,7 +20,7 @@ const pomodoroApp = createApp({
     let timerInterval = null;
 
     const sessions = ['work','shortBreak','work','shortBreak','work','shortBreak','work','longBreak'];
-    const sessionTimes = { work: 25*60, shortBreak: 25*60, longBreak: 15*60 };
+    const sessionTimes = { work: 25*60, shortBreak: 5*60, longBreak: 15*60 };
     const sessionLabels = { work: '作業', shortBreak: '短い休憩', longBreak: '長い休憩' };
     let currentSessionIndex = 0;
     const currentSession = ref(sessions[currentSessionIndex]);
