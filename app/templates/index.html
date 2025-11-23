@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html jang="ja">
+<html lang="ja">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -8,13 +8,18 @@
         <meta name="description" content="電脳空間に現実と同じ時間軸を。画面を放置するときに時間と天気を表示しておけるサイト。">
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/icons/favicon.ico') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/slot.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pomodoro.css') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
         <meta name="format-detection" content="email=no,telephone=no,address=no">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="{{ url_for('static', filename='js/vue.js') }}" defer></script>
+        <script type="module" src="{{ url_for('static', filename='js/store.js') }}"></script>
+        <script type="module" src="{{ url_for('static', filename='js/vue.js') }}" defer></script>
+        <script type="module" src="{{ url_for('static', filename='js/slot.js') }}" defer></script>
+        <script type="module" src="{{ url_for('static', filename='js/pomodoro.js') }}" defer></script>
     </head>
     <body>
         <div id="mainApp">
@@ -22,7 +27,7 @@
                 <source :srcset="currentSrcSet['4k']" media="(min-width: 3840px)">
                 <img :src="currentBackground" alt="background" class="background-image">
             </picture>
-            <div class="front-container">
+            <div :class="['front-container', { 'pomodoro-shift': store.showPomodoro }]">
                 <div class="weather-card">
                     <img :src="changeIconUrl(weather)" alt="Weather Icon" class="weather-icon">
                     <div class="weather-holder">
@@ -33,6 +38,74 @@
                 </div>
                 <p class="time">[[ time ]]</p>
             </div>
-        <div>
+        </div>
+        
+        <div id="slot">
+            <span class="slot-trigger" @click="openSlot">スロット</span>
+
+            <div v-if="showSlot" class="slot-overlay" :class="{ 'gogo-flash': gogoAllowed }">
+                <div id="slot-container">
+                    <h2>スロット</h2>
+
+                <div class="machine">
+                    <div class="reel-col" v-for="(reel, reelIndex) in reelSymbols" :key="reelIndex">
+                        <div class="reel">
+                            <div class="reel-inner" :ref="'reel' + reelIndex">
+                                <div class="symbol"
+                                    v-for="(symbol, idx) in (reel.concat(reel.slice(0,3)))"
+                                    :key="idx">
+                                    <img :src="IconUrl[symbol]" :alt="symbol" v-if="IconUrl[symbol]" />
+                                    <span v-else>?</span>
+                                </div>
+                            </div>
+                            <div class="payline"></div>
+                        </div>
+                        <button @click="stopReel(reelIndex)" class="stop-btn">
+                            <img :src="stopIconUrl" alt="STOP" />
+                        </button>
+                    </div>
+                </div>
+
+                    <button id="spin-btn" @click="startSpin">SPIN</button>
+                    <div id="slot-info">
+                        <div id="slot-coins">Coins: [[ coins ]]</div>
+                        <div id="slot-result">[[ result ]]</div>
+                    </div>
+                    <button class="close-btn" @click="showSlot=false">
+                        <img :src="closeIconUrl" alt="閉じる" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pomodoro">
+            <div v-if="store.showPomodoro">
+                <div class="pomodoro-container">
+                    <div class="pomodoro-left">
+                        <div class="pomodoro-session-label">[[ sessionLabel ]]</div>
+                        <div class="pomodoro-button-group">
+                            <span @click="toggleTimer">
+                                <img :src="isRunning ? 'static/images/icons/pause_16x16.png' : 'static/images/icons/triangle_16x16.png'" alt="タイマー">
+                            </span>
+                            <span @click="skipSession">
+                                <img src="static/images/icons/skip_play_I_16x16.png" alt="スキップ">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="pomodoro-formatted-timer">[[ formattedTimer ]]</div>
+                </div>
+                <div class="pomodoro-toggle-button">
+                    <span @click="togglePomodoro">ポモドーロ</span>
+                </div>
+            </div>
+
+            <div class="pomodoro-toggle-button" v-if="!store.showPomodoro">
+                <span @click="togglePomodoro">ポモドーロ</span>
+            </div>
+        </div>
+
+        <audio id="work-end-sound" src="{{ url_for('static', filename='audio/gattukouchaim.mp3') }}"></audio>
+        <audio id="break-end-sound" src="{{ url_for('static', filename='/audio/touchsound.mp3') }}"></audio>
+
     </body>
 </html>

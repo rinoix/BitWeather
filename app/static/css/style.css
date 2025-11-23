@@ -4,6 +4,7 @@ body {
     font-family: "DotGothic16", serif;
     font-weight: 800;
     font-style: normal;
+    user-select: none;
 }
 
 .background-container {
@@ -24,11 +25,15 @@ body {
 }
 
 .front-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 150px;
-    margin-top: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 150px;
 }
 
 .weather-card {
